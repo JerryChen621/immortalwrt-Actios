@@ -27,3 +27,13 @@ sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/M
 # git clone https://github.com/gSpotx2f/luci-app-cpu-status-mini package/luci-app-cpu-status-mini
 # git clone https://github.com/lkiuyu/luci-app-temp-status package/luci-app-temp-status
 # git clone https://github.com/lkiuyu/DbusSmsForwardCPlus package/DbusSmsForwardCPlus
+# 仅保留 PassWall 2 的 Sing-box 核心，关闭默认附带的 Xray / Rust 等冗余内核以节省闪存和编译时间
+cat >> .config << 'EOF'
+# CONFIG_PACKAGE_luci-app-passwall2_Basic_Core_All is not set
+CONFIG_PACKAGE_luci-app-passwall2_Basic_Core_SingBox=y
+# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy is not set
+# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client is not set
+# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client is not set
+# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Simple_Obfs is not set
+# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_V2ray_Plugin is not set
+EOF
