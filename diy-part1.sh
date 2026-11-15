@@ -6,30 +6,15 @@
 # 版权: (c) 2019-2024 P3TERX <https://p3terx.com>
 # 基于 MIT 开源协议，详见 /LICENSE
 
-# 取消注释一个源
-# sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+# 1. 补齐 lkiuyu/immortalwrt (2026-05/06) 与最新 immortalwrt/packages 之间迁移至主仓库的基础库 (libffi 与 libstd-rust)
+git clone --depth 1 --filter=blob:none --sparse https://github.com/immortalwrt/immortalwrt.git /tmp/imm_core
+git -C /tmp/imm_core sparse-checkout set package/libs/libffi package/libs/libstd-rust
+cp -rf /tmp/imm_core/package/libs/libffi package/libs/
+cp -rf /tmp/imm_core/package/libs/libstd-rust package/libs/
+rm -rf /tmp/imm_core
 
-# 添加第三方 feed 源（small-package 包含 openclash/passwall/ssr-plus 等常用插件）
+# 2. 添加第三方 feed 源（small-package 包含 passwall2 / sing-box / tailscale 等插件，名称必须保持 smpackage 以匹配工作流去重脚本）
 echo 'src-git smpackage https://github.com/kenzok8/small-package' >> feeds.conf.default
-# 添加第三方源，iStore 应用商店，编译时包名输入 luci-app-store
-echo 'src-git store https://github.com/linkease/istore.git;main' >> feeds.conf.default
 
-
-# OpenClash代理
-# git clone --depth 1 https://github.com/vernesong/OpenClash.git OpenClash
-
-# turboacc网络加速（需要用户在页面选择 luci-app-turboacc 后，由编译脚本自动执行，此处不再无条件运行）
-# curl -sSL https://raw.githubusercontent.com/mufeng05/turboacc/main/add_turboacc.sh -o add_turboacc.sh && bash add_turboacc.sh
-
-# 调试
-# sed -i 's|src-git-full openstick https://github.com/lkiuyu/openstick-feeds.git|src-git-full openstick https://github.com/xuxin1955/openstick-feeds|g' feeds.conf.default
-
-# 添加 4G/5G Modem 管理插件源
-#echo "src-git modem https://github.com/fildunsky/luci-app-5gmodem.git" >> feeds.conf.default
-
-# 更新并注册插件
-#./scripts/feeds update modem
-#./scripts/feeds install luci-app-5gmodem
-
-
-
+# 3. 添加 4G/5G Modem 管理插件源（仅写入 feeds.conf.default，由后续工作流统一执行 feeds update -a 和 install -a -f）
+echo 'src-git modem https://github.com/fildunsky/luci-app-5gmodem.git' >> feeds.conf.default
