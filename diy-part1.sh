@@ -25,11 +25,11 @@ echo 'src-git store https://github.com/linkease/istore.git;main' >> feeds.conf.d
 # sed -i 's|src-git-full openstick https://github.com/lkiuyu/openstick-feeds.git|src-git-full openstick https://github.com/xuxin1955/openstick-feeds|g' feeds.conf.default
 
 # 添加 4G/5G Modem 管理插件源
-echo "src-git modem https://github.com/fildunsky/luci-app-5gmodem.git" >> feeds.conf.default
+#echo "src-git modem https://github.com/fildunsky/luci-app-5gmodem.git" >> feeds.conf.default
 
 # 更新并注册插件
-./scripts/feeds update modem
-./scripts/feeds install luci-app-5gmodem
+#./scripts/feeds update modem
+#./scripts/feeds install luci-app-5gmodem
 
 
 
